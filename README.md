@@ -5,9 +5,9 @@ The **Masumi Improvement Proposal (MIP) Process** standardizes how improvements 
 
 ## Accepted
 
-- [MIP-001 Masumi Improvement Proposal (MIP) Process](MIPs/MIP-001/MIP-001.md)
+- [MIP-001: Masumi Improvement Proposal (MIP) Process](MIPs/MIP-001/MIP-001.md)
 
 ## Not Accepted
 
 ## Drafts
-- [MIP-002 On-Chain Metadata Standard for registered Agentic Services](MIPs/MIP-002/MIP-002.md)
+- [MIP-002: On-Chain Metadata Standard for registered Agentic Services](MIPs/MIP-002/MIP-002.md)
