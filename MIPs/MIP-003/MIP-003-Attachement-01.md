@@ -2,13 +2,13 @@
 
 ## Overview
 
-This document outlines the standard format used for input validation based on a simplified JSON schema. The goal is to balance ease of use with a wide range of options.
+This format defines input validation using a simplified JSON schema. The goal is to make it easy to define various input types and their rules, while keeping implementation flexible.
+
+> Developers only need to define the schema. The frontend handles display logic.
 
 ---
 
-## Schema Structure
-
-Here’s a complete example demonstrating all supported properties and validation rules:
+## Example Schema
 
 ```json
 {
@@ -31,53 +31,19 @@ Here’s a complete example demonstrating all supported properties and validatio
 
 ---
 
-## Field Definitions
-
-### `id`
-
-- Description: Unique identifier for the input.
-- Purpose: Used to link data and fields. Must be unique within a form.
-
-### `type`
-
-- Description: Declares the input type.
-- Accepted Values: `string`, `number`, `boolean`, `option`, `none`
-- See: [Supported Types](#supported-types)
-
-### `name`
-
-- Description: Display name of the input. Used for UI display.
-
-### `data`
-
-- Description: Input-specific configuration.
-- See: [Data Field](#data-field)
-
-### `validations`
-
-- Description: Array of validation rules.
-- See: [Validation Types](#validation-types)
-
----
-
 ## Supported Types
 
-### `none` (Informational Only)
+### `none`
 
-Used to display static text such as headers or paragraphs. No validations are applied.
+Displays static text. No validations applied.
 
 ```json
-{
-  "type": "none",
-  "name": "Informational Block"
-}
+{ "type": "none", "name": "Informational Header" }
 ```
-
----
 
 ### `string`
 
-Basic text input with optional validations.
+Basic text input with optional format or length validations.
 
 ```json
 {
@@ -85,71 +51,58 @@ Basic text input with optional validations.
   "name": "Email",
   "validations": [
     { "validation": "min", "value": "5" },
-    { "validation": "max", "value": "55" },
     { "validation": "format", "value": "email" }
   ]
 }
 ```
 
----
-
 ### `number`
 
-Numeric input with optional validations and descriptions.
+Numeric input, supports `min`, `max`, and `format`.
 
 ```json
 {
   "type": "number",
   "name": "Age",
-  "data": { "description": "User's age in years" },
+  "data": { "description": "User's age" },
   "validations": [
     { "validation": "min", "value": "18" },
-    { "validation": "max", "value": "120" },
     { "validation": "format", "value": "integer" }
   ]
 }
 ```
 
----
-
 ### `boolean`
 
-Binary toggle input.
+Boolean switch or checkbox.
 
 ```json
-{
-  "type": "boolean",
-  "name": "Include NGOs"
-}
+{ "type": "boolean", "name": "Include NGOs" }
 ```
-
----
 
 ### `option`
 
-Used to allow single or multiple selections from predefined values.
+Select one or more from predefined values.
 
-#### Multiple Selections
+**Multiple:**
 
 ```json
 {
   "type": "option",
-  "name": "Company type",
+  "name": "Company Type",
   "data": {
-    "description": "Select legal entities to analyze",
     "values": ["AG", "GmbH", "UG"]
   }
 }
 ```
 
-#### Single Selection
+**Single:**
 
 ```json
 {
   "type": "option",
-  "name": "Company type",
+  "name": "Company Type",
   "data": {
-    "description": "Select a legal entity to analyze",
     "values": ["AG", "GmbH", "UG"]
   },
   "validations": [
@@ -161,19 +114,16 @@ Used to allow single or multiple selections from predefined values.
 
 ---
 
-## Validation Types
+## Validation Rules
 
-| Validation | Description                                                                 | Applies To               | Default  |
-|------------|-----------------------------------------------------------------------------|--------------------------|----------|
-| `min`      | Minimum characters (string), value (number), or options selected (option)  | string, number, option   | —        |
-| `max`      | Maximum characters, value, or selected options                              | string, number, option   | —        |
-| `format`   | Validates format such as email or URL                                       | string                   | —        |
-| `required` | Marks input as mandatory (true/false)                                       | all types                | false    |
+| Validation | Purpose                                       | Applies to             |
+|------------|-----------------------------------------------|------------------------|
+| `min`      | Minimum value, length, or options selected    | string, number, option |
+| `max`      | Maximum value, length, or options selected    | string, number, option |
+| `format`   | Checks for specific format (e.g., email)      | string                 |
+| `required` | Field must be filled                          | all                    |
 
-### Notes
-
-- Validations are evaluated using logical AND. Multiple `min` or `max` rules will be applied sequentially.
-- Avoid conflicting validations, e.g., `format: email` with `max: 2`.
+Multiple validations are ANDed. For example:
 
 ```json
 [
@@ -182,47 +132,29 @@ Used to allow single or multiple selections from predefined values.
 ]
 ```
 
-The above example validates that the input is at least 10 (both validations apply).
+Requires value ≥ 10.
+
+Avoid conflicting rules (e.g., `format: email` with `max: 2`).
 
 ---
 
 ## Format Types
 
-The following formats are supported:
-
-- `email` – Validates email addresses
-- `url` – Validates URLs
-- `integer` – Input must be an integer
-- `nonempty` – Field must not be empty
+- `email`: Must be a valid email
+- `url`: Must be a valid URL
+- `integer`: Must be a whole number
+- `nonempty`: Field must not be blank
 
 ---
 
 ## Data Field
 
-The `data` field contains rendering and helper information used by the frontend. It varies based on input type.
-
-### For `option` Type
+Use `data` for input-specific config like:
 
 ```json
 "data": {
-  "values": ["Option 1", "Option 2", "Option 3"]
-}
-```
-
-### Shared Across All Types
-
-**Description Field:**
-
-```json
-"data": {
-  "description": "This is an example input"
-}
-```
-
-**Placeholder Field:**
-
-```json
-"data": {
-  "placeholder": "Please enter your email"
+  "values": ["Option 1", "Option 2"],
+  "description": "Choose an option",
+  "placeholder": "Select..."
 }
 ```
