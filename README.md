@@ -12,3 +12,4 @@ The **Masumi Improvement Proposal (MIP) Process** standardizes how improvements 
 ## Drafts
 - [MIP-002: On-Chain Metadata Standard for registered Agentic Services](MIPs/MIP-002/MIP-002.md)
 - [MIP-003: Agentic Service API Standard](MIPs/MIP-003/MIP-003.md)
+- [MIP-004:  A Hashing Standard for Data Integrity](MIPs/MIP-004/MIP-004.md)
