@@ -18,7 +18,7 @@ Below is an example with all possible options to define an input. (possible type
 {
   "id": "example-input",
 
-  "type": "string|number|boolean|optional|none",
+  "type": "string|textarea|number|boolean|optional|none",
 
   "name": "Example name",
 
@@ -109,6 +109,31 @@ The name will be displayed as a header and the description as a paragraph. Right
   ]
 }
 ```
+
+## Textarea
+
+```json
+{
+  "type": "string",
+
+  "name": "Sentences",
+
+  "validations": [
+    {
+      "validation": "min",
+
+      "value": "5"
+    },
+
+    {
+      "validation": "max",
+
+      "value": "55"
+    }
+  ]
+}
+```
+
 
 ## Number
 
