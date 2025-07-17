@@ -114,7 +114,7 @@ The name will be displayed as a header and the description as a paragraph. Right
 
 ```json
 {
-  "type": "string",
+  "type": "textarea",
 
   "name": "Sentences",
 
