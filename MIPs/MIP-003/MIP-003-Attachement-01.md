@@ -65,510 +65,463 @@ The `validations` field is used to provide validation rules. This is specific to
 
 # Supported Types
 
-## None
+## Input Types Reference Table
 
-This is a special type that is used to display additional text and information.
-(Note all validations will be ignored)
+| Type | Description | Common Validations | Data Fields |
+|------|-------------|-------------------|-------------|
+| **none** | Display-only text/information | None (ignored) | `description` |
+| **text** | Single-line text input | `min`, `max`, `format: nonempty` | `placeholder`, `description`, `default` |
+| **textarea** | Multi-line text input | `min`, `max`, `format: nonempty` | `placeholder`, `description`, `default` |
+| **number** | Numeric input | `min`, `max`, `format: integer` | `placeholder`, `description`, `default` |
+| **boolean** | True/false checkbox | `optional` | `description`, `default` |
+| **email** | Email address input | `format: email` (auto), `min`, `max` | `placeholder`, `description`, `default` |
+| **password** | Password input (hidden) | `min`, `max` | `placeholder`, `description` |
+| **tel** | Telephone number | `format: tel-pattern`, `min`, `max` | `placeholder`, `description`, `default` |
+| **url** | URL/website input | `format: url` (auto), `min`, `max` | `placeholder`, `description`, `default` |
+| **date** | Date picker | `min`, `max` | `description`, `default` |
+| **datetime-local** | Date and time picker | `min`, `max` | `description`, `default` |
+| **time** | Time picker | `min`, `max` | `description`, `default` |
+| **month** | Month/year picker | `min`, `max` | `description`, `default` |
+| **week** | Week picker | `min`, `max` | `description`, `default` |
+| **color** | Color picker | None | `default`, `description` |
+| **range** | Slider control | `min`, `max` | `min`, `max`, `step`, `default`, `description` |
+| **file** | File upload | None | `accept`, `maxSize`, `multiple`, `description` |
+| **hidden** | Hidden field | None | `value` (required) |
+| **search** | Search input | `min`, `max`, `format: nonempty` | `placeholder`, `description`, `default` |
+| **button** | Clickable button | None | `value`, `action`, `description` |
+| **checkbox** | Single checkbox | `optional` | `description`, `default` |
+| **radio** | Radio button group | `min: 1`, `max: 1` | `values` (required), `default`, `description` |
+| **image** | Image submit button | None | `src`, `alt`, `width`, `height` |
+| **reset** | Reset form button | None | `value`, `description` |
+| **submit** | Submit form button | None | `value`, `description` |
+| **option** | Multi/single select | `min`, `max` | `values` (required), `description` |
 
-```json
-{
-  "type": "none",
+## Input Type Examples
 
-  "name": "None"
-}
-```
+### Text Input Types
 
-The name will be displayed as a header and the description as a paragraph. Right now no additional rendering options are supported, but support might be added in the future read about the [Data Field](#data-field) for more details.
-
-## Text
+<details>
+<summary><strong>text</strong> - Single-line text input</summary>
 
 ```json
 {
   "type": "text",
-
   "name": "Username",
-
+  "data": {
+    "placeholder": "Enter username",
+    "description": "3-20 characters"
+  },
   "validations": [
-    {
-      "validation": "min",
-
-      "value": "3"
-    },
-
-    {
-      "validation": "max",
-
-      "value": "20"
-    },
-
-    {
-      "validation": "format",
-
-      "value": "nonempty"
-    }
+    {"validation": "min", "value": "3"},
+    {"validation": "max", "value": "20"},
+    {"validation": "format", "value": "nonempty"}
   ]
 }
 ```
+</details>
 
-## Textarea
+<details>
+<summary><strong>textarea</strong> - Multi-line text input</summary>
 
 ```json
 {
   "type": "textarea",
-
-  "name": "Sentences",
-
-  "validations": [
-    {
-      "validation": "min",
-
-      "value": "5"
-    },
-
-    {
-      "validation": "max",
-
-      "value": "55"
-    }
-  ]
-}
-```
-
-
-## Number
-
-```json
-{
-  "type": "number",
-
-  "name": "Age",
-
+  "name": "Comments",
   "data": {
-    "description": "User's age in years (optional)"
+    "placeholder": "Enter your comments...",
+    "description": "Maximum 500 characters"
   },
-
   "validations": [
-    {
-      "validation": "min",
-
-      "value": "18"
-    },
-
-    {
-      "validation": "max",
-
-      "value": "120"
-    },
-
-    {
-      "validation": "format",
-
-      "value": "integer"
-    }
+    {"validation": "max", "value": "500"}
   ]
 }
 ```
+</details>
 
-## Boolean
-
-```json
-{
-  "type": "boolean",
-
-  "name": "Include NGOs"
-}
-```
-
-## Email
+<details>
+<summary><strong>email</strong> - Email address input</summary>
 
 ```json
 {
   "type": "email",
-
   "name": "Contact Email",
-
   "data": {
     "placeholder": "user@example.com"
   },
-
   "validations": [
-    {
-      "validation": "format",
-      "value": "email"
-    }
+    {"validation": "format", "value": "email"}
   ]
 }
 ```
+</details>
 
-## Password
+<details>
+<summary><strong>password</strong> - Password input</summary>
 
 ```json
 {
   "type": "password",
-
-  "name": "Account Password",
-
+  "name": "Password",
   "data": {
-    "description": "Must be at least 8 characters"
+    "description": "Minimum 8 characters"
   },
-
   "validations": [
-    {
-      "validation": "min",
-      "value": "8"
-    },
-    {
-      "validation": "max",
-      "value": "128"
-    }
+    {"validation": "min", "value": "8"},
+    {"validation": "max", "value": "128"}
   ]
 }
 ```
+</details>
 
-## Tel
+<details>
+<summary><strong>tel</strong> - Telephone number</summary>
 
 ```json
 {
   "type": "tel",
-
   "name": "Phone Number",
-
   "data": {
     "placeholder": "+1-234-567-8900",
     "description": "Include country code"
   }
 }
 ```
+</details>
 
-## URL
+<details>
+<summary><strong>url</strong> - URL input</summary>
 
 ```json
 {
   "type": "url",
-
-  "name": "Website URL",
-
+  "name": "Website",
   "data": {
     "placeholder": "https://example.com"
   },
-
   "validations": [
-    {
-      "validation": "format",
-      "value": "url"
-    }
+    {"validation": "format", "value": "url"}
   ]
 }
 ```
+</details>
 
-## Date
+<details>
+<summary><strong>search</strong> - Search input</summary>
+
+```json
+{
+  "type": "search",
+  "name": "Search Query",
+  "data": {
+    "placeholder": "Search for services...",
+    "description": "Enter keywords"
+  }
+}
+```
+</details>
+
+### Date/Time Input Types
+
+<details>
+<summary><strong>date</strong> - Date picker</summary>
 
 ```json
 {
   "type": "date",
-
   "name": "Birth Date",
-
   "validations": [
-    {
-      "validation": "min",
-      "value": "1900-01-01"
-    },
-    {
-      "validation": "max",
-      "value": "2024-12-31"
-    }
+    {"validation": "min", "value": "1900-01-01"},
+    {"validation": "max", "value": "2024-12-31"}
   ]
 }
 ```
+</details>
 
-## Datetime-local
+<details>
+<summary><strong>datetime-local</strong> - Date and time picker</summary>
 
 ```json
 {
   "type": "datetime-local",
-
   "name": "Appointment Time",
-
   "data": {
-    "description": "Select date and time for your appointment"
+    "description": "Select date and time"
   }
 }
 ```
+</details>
 
-## Time
+<details>
+<summary><strong>time</strong> - Time picker</summary>
 
 ```json
 {
   "type": "time",
-
-  "name": "Preferred Time",
-
+  "name": "Start Time",
   "validations": [
-    {
-      "validation": "min",
-      "value": "09:00"
-    },
-    {
-      "validation": "max",
-      "value": "17:00"
-    }
+    {"validation": "min", "value": "09:00"},
+    {"validation": "max", "value": "17:00"}
   ]
 }
 ```
+</details>
 
-## Month
+<details>
+<summary><strong>month</strong> - Month/year picker</summary>
 
 ```json
 {
   "type": "month",
-
   "name": "Billing Month",
-
   "data": {
     "description": "Select month and year"
   }
 }
 ```
+</details>
 
-## Week
+<details>
+<summary><strong>week</strong> - Week picker</summary>
 
 ```json
 {
   "type": "week",
-
   "name": "Week Selection",
-
   "validations": [
-    {
-      "validation": "min",
-      "value": "2024-W01"
-    }
+    {"validation": "min", "value": "2024-W01"}
   ]
 }
 ```
+</details>
 
-## Color
+### Numeric Input Types
+
+<details>
+<summary><strong>number</strong> - Numeric input</summary>
 
 ```json
 {
-  "type": "color",
-
-  "name": "Theme Color",
-
+  "type": "number",
+  "name": "Age",
   "data": {
-    "description": "Choose your preferred color",
-    "default": "#1a73e8"
-  }
+    "description": "Must be 18 or older"
+  },
+  "validations": [
+    {"validation": "min", "value": "18"},
+    {"validation": "max", "value": "120"},
+    {"validation": "format", "value": "integer"}
+  ]
 }
 ```
+</details>
 
-## Range
+<details>
+<summary><strong>range</strong> - Slider control</summary>
 
 ```json
 {
   "type": "range",
-
   "name": "Priority Level",
-
   "data": {
     "min": "1",
     "max": "10",
     "step": "1",
     "default": "5",
-    "description": "Select priority from 1 (low) to 10 (high)"
+    "description": "1 (low) to 10 (high)"
   }
 }
 ```
+</details>
 
-## File
+### Selection Input Types
 
-```json
-{
-  "type": "file",
-
-  "name": "Document Upload",
-
-  "data": {
-    "accept": ".pdf,.doc,.docx",
-    "description": "Upload PDF or Word documents only",
-    "maxSize": "10485760"
-  }
-}
-```
-
-## Hidden
+<details>
+<summary><strong>boolean</strong> - Checkbox for true/false</summary>
 
 ```json
 {
-  "type": "hidden",
-
-  "name": "Session ID",
-
+  "type": "boolean",
+  "name": "Subscribe to Newsletter",
   "data": {
-    "value": "abc123xyz"
-  }
-}
-```
-
-## Search
-
-```json
-{
-  "type": "search",
-
-  "name": "Search Query",
-
-  "data": {
-    "placeholder": "Search for services...",
-    "description": "Enter keywords to search"
-  }
-}
-```
-
-## Button
-
-```json
-{
-  "type": "button",
-
-  "name": "Calculate Total",
-
-  "data": {
-    "value": "Calculate",
-    "action": "calculate_total"
-  }
-}
-```
-
-## Checkbox
-
-```json
-{
-  "type": "checkbox",
-
-  "name": "Terms and Conditions",
-
-  "data": {
-    "description": "I agree to the terms and conditions",
     "default": false
   }
 }
 ```
+</details>
 
-## Radio
+<details>
+<summary><strong>checkbox</strong> - Single checkbox</summary>
+
+```json
+{
+  "type": "checkbox",
+  "name": "Terms and Conditions",
+  "data": {
+    "description": "I agree to the terms",
+    "default": false
+  }
+}
+```
+</details>
+
+<details>
+<summary><strong>radio</strong> - Radio button group</summary>
 
 ```json
 {
   "type": "radio",
-
   "name": "Payment Method",
-
   "data": {
     "values": ["Credit Card", "PayPal", "Bank Transfer"],
     "default": "Credit Card"
   }
 }
 ```
+</details>
 
-## Image
+<details>
+<summary><strong>option</strong> - Multi/single select dropdown</summary>
+
+```json
+{
+  "type": "option",
+  "name": "Countries",
+  "data": {
+    "values": ["United States", "United Kingdom", "Canada"],
+    "description": "Select one or more countries"
+  },
+  "validations": [
+    {"validation": "min", "value": "1"},
+    {"validation": "max", "value": "3"}
+  ]
+}
+```
+</details>
+
+### Special Input Types
+
+<details>
+<summary><strong>color</strong> - Color picker</summary>
+
+```json
+{
+  "type": "color",
+  "name": "Theme Color",
+  "data": {
+    "default": "#1a73e8",
+    "description": "Choose your preferred color"
+  }
+}
+```
+</details>
+
+<details>
+<summary><strong>file</strong> - File upload</summary>
+
+```json
+{
+  "type": "file",
+  "name": "Document Upload",
+  "data": {
+    "accept": ".pdf,.doc,.docx",
+    "maxSize": "10485760",
+    "description": "PDF or Word documents only (max 10MB)"
+  }
+}
+```
+</details>
+
+<details>
+<summary><strong>hidden</strong> - Hidden field</summary>
+
+```json
+{
+  "type": "hidden",
+  "name": "Session ID",
+  "data": {
+    "value": "abc123xyz"
+  }
+}
+```
+</details>
+
+### Button Types
+
+<details>
+<summary><strong>button</strong> - Clickable button</summary>
+
+```json
+{
+  "type": "button",
+  "name": "Calculate Total",
+  "data": {
+    "value": "Calculate",
+    "action": "calculate_total"
+  }
+}
+```
+</details>
+
+<details>
+<summary><strong>submit</strong> - Submit form button</summary>
+
+```json
+{
+  "type": "submit",
+  "name": "Submit Form",
+  "data": {
+    "value": "Submit Application"
+  }
+}
+```
+</details>
+
+<details>
+<summary><strong>reset</strong> - Reset form button</summary>
+
+```json
+{
+  "type": "reset",
+  "name": "Reset Form",
+  "data": {
+    "value": "Clear All"
+  }
+}
+```
+</details>
+
+<details>
+<summary><strong>image</strong> - Image submit button</summary>
 
 ```json
 {
   "type": "image",
-
   "name": "Submit Button",
-
   "data": {
-    "src": "/images/submit-button.png",
+    "src": "/images/submit.png",
     "alt": "Submit Form",
     "width": "200",
     "height": "50"
   }
 }
 ```
+</details>
 
-## Reset
+### Display Types
+
+<details>
+<summary><strong>none</strong> - Display-only text</summary>
 
 ```json
 {
-  "type": "reset",
-
-  "name": "Reset Form",
-
+  "type": "none",
+  "name": "Instructions",
   "data": {
-    "value": "Clear All"
+    "description": "Please fill out all required fields"
   }
 }
 ```
-
-## Submit
-
-```json
-{
-  "type": "submit",
-
-  "name": "Submit Form",
-
-  "data": {
-    "value": "Submit Application"
-  }
-}
-```
-
-## Option
-
-This can be used to let the user select multiple or a single value. Ensure to provide a list of values to select in the `data` field. Also see [Data Field](#data-field) for more details.
-
-### Multiple Values
-
-This example allows the user to select multiple values.
-
-```json
-{
-  "type": "option",
-
-  "name": "Company type",
-
-  "data": {
-    "description": "Please select the legal entities to analyze",
-
-    "values": ["AG", "GmbH", "UG"]
-  }
-}
-```
-
-### Single Value
-
-This example requires exactly 1 value to be selected.
-
-```json
-{
-  "type": "option",
-
-  "name": "Company type",
-
-  "data": {
-    "description": "Please select the legal entity to analyze",
-
-    "values": ["AG", "GmbH", "UG"]
-  },
-
-  "validations": [
-    {
-      "validation": "min",
-
-      "value": "1"
-    },
-
-    {
-      "validation": "max",
-
-      "value": "1"
-    }
-  ]
-}
-```
+</details>
 
 # Validation Types
 
