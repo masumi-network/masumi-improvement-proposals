@@ -84,7 +84,7 @@ Below is an example of an input definition, with all possible types separated by
 | **option** | Multi/single select | <code>min</code>, <code>max</code> | <code>values</code> (required), <code>description</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "option",<br>&nbsp;&nbsp;"name": "Countries",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"values": ["United States", "United Kingdom", "Canada"],<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Select one or more countries"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "min", "value": "1"},<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "max", "value": "3"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
 
 
-# Validation Types
+## Validation Types
 
 | Validation | Description                                                                                                 | Applicable Types                                                                                    | Default Value      |
 | ---------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------ |
@@ -93,8 +93,13 @@ Below is an example of an input definition, with all possible types separated by
 | `format`   | Specific format (email, url, etc.)                                                                          | text, email, url, tel, search, (url, email, nonempty, tel-pattern), <br>number (integer)         | -                  |
 | `optional` | The field is not required. By default all fields are required                                               | all                                                                                                 | false (if not set) |
 
-Please note that the by default there are no optional validations, also meaning that all fields are required.
-This means that if you do not set a validation, the field will not be limited. In contrast to this, if you set validations multiple times, all instances of the validation will be applied, meaning that validations follow a logical AND. To clarify this, here are some examples:
+By default there are no optional validations, all fields are required.
+
+If you do not set a validation, the field will not be limited. 
+
+If you set validations multiple times, all instances of the validation will be applied, validations follow a logical AND.
+
+For example:
 
 ```json
 {
@@ -109,7 +114,7 @@ This means that if you do not set a validation, the field will not be limited. I
 
 The value will first be validated to be at least 5, then validated to be at least 10.
 
-(Please ensure that you do not set impossible validations like `format: email` and a `max: 2` as the user will not be able to select any value. Also ensure that the value you receive in your agent is validated to your needs and handled as untrusted data. This schema is a suggestions to a frontend on how to display inputs)
+(Please ensure that you do not set impossible validations like `format: email` and a `max: 2` as the user will not be able to select any value. Ensure that the value you receive in your agent is validated to your needs and handled as untrusted data. This schema is a suggestion to frontend on how to display inputs)
 
 # Additional Notes
 
