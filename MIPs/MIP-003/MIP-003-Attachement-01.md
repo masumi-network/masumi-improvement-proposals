@@ -2,12 +2,10 @@
 
 ## Overview
 
-This document describes the standard format used for input types. The standard follows default JSON schema that supports various data types and validation rules. Data types should be compatible with the [HTML input types](https://www.w3schools.com/tags/tag_input.asp).
+This document describes the standard format used for input types. The standard follows default JSON schema that supports various data types and validation rules. Data types should be compatible with the [HTML input types](https://www.w3schools.com/tags/tag_input.asp) (except button types).
 
 
-By default all fields are required, you can make the optional however see the [Validation Types](#validation-types)
-
-As a developer you don't have to care about the right display types, just define the schema, we handle the rest.
+By default all fields are required, but you can make it optional. See [Validation Types](#validation-types).
 
 # Format and fields
 
@@ -17,7 +15,7 @@ Below is an example with all possible options to define an input. (possible type
 {
   "id": "example-input",
 
-  "type": "text|textarea|number|boolean|option|none|email|password|tel|url|date|datetime-local|time|month|week|color|range|file|hidden|search|button|checkbox|radio|image|reset|submit",
+  "type": "text|textarea|number|boolean|option|none|email|password|tel|url|date|datetime-local|time|month|week|color|range|file|hidden|search|checkbox|radio",
 
   "name": "Example name",
 
@@ -87,12 +85,8 @@ The `validations` field is used to provide validation rules. This is specific to
 | **file** | File upload | None | `accept`, `maxSize`, `multiple`, `description` |
 | **hidden** | Hidden field | None | `value` (required) |
 | **search** | Search input | `min`, `max`, `format: nonempty` | `placeholder`, `description`, `default` |
-| **button** | Clickable button | None | `value`, `action`, `description` |
 | **checkbox** | Single checkbox | `optional` | `description`, `default` |
 | **radio** | Radio button group | `min: 1`, `max: 1` | `values` (required), `default`, `description` |
-| **image** | Image submit button | None | `src`, `alt`, `width`, `height` |
-| **reset** | Reset form button | None | `value`, `description` |
-| **submit** | Submit form button | None | `value`, `description` |
 | **option** | Multi/single select | `min`, `max` | `values` (required), `description` |
 
 ## Input Type Examples
@@ -444,68 +438,6 @@ The `validations` field is used to provide validation rules. This is specific to
 ```
 </details>
 
-### Button Types
-
-<details>
-<summary><strong>button</strong> - Clickable button</summary>
-
-```json
-{
-  "type": "button",
-  "name": "Calculate Total",
-  "data": {
-    "value": "Calculate",
-    "action": "calculate_total"
-  }
-}
-```
-</details>
-
-<details>
-<summary><strong>submit</strong> - Submit form button</summary>
-
-```json
-{
-  "type": "submit",
-  "name": "Submit Form",
-  "data": {
-    "value": "Submit Application"
-  }
-}
-```
-</details>
-
-<details>
-<summary><strong>reset</strong> - Reset form button</summary>
-
-```json
-{
-  "type": "reset",
-  "name": "Reset Form",
-  "data": {
-    "value": "Clear All"
-  }
-}
-```
-</details>
-
-<details>
-<summary><strong>image</strong> - Image submit button</summary>
-
-```json
-{
-  "type": "image",
-  "name": "Submit Button",
-  "data": {
-    "src": "/images/submit.png",
-    "alt": "Submit Form",
-    "width": "200",
-    "height": "50"
-  }
-}
-```
-</details>
-
 ### Display Types
 
 <details>
@@ -651,16 +583,6 @@ data: {
 }
 ```
 
-### Button, Submit, Reset
-These button types support custom text:
-
-```json
-data: {
-  "value": "Click Me",
-  "action": "custom_action"  // for button type
-}
-```
-
 ### Checkbox
 The `checkbox` type supports default checked state:
 
@@ -678,18 +600,6 @@ The `radio` type requires values like option:
 data: {
   "values": ["Option 1", "Option 2"],
   "default": "Option 1"
-}
-```
-
-### Image
-The `image` type requires image configuration:
-
-```json
-data: {
-  "src": "/path/to/image.png",
-  "alt": "Alternative text",
-  "width": "100",
-  "height": "50"
 }
 ```
 
