@@ -29,7 +29,7 @@ Below is an example of an input definition, with all possible types separated by
 {
   "id": "example-input",
 
-  "type": "text|textarea|number|boolean|option|none|email|password|tel|url|date|datetime-local|time|month|week|color|range|file|hidden|search|checkbox|radio",
+  "type": "text|textarea|number|boolean|option|none|email|password|tel|url|date|datetime-local|time|month|week|color|range|file|hidden|search|checkbox|radio|paybytime",
 
   "name": "Example name",
 
@@ -82,14 +82,15 @@ Below is an example of an input definition, with all possible types separated by
 | **checkbox** | Single checkbox | <code>optional</code> | <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "checkbox",<br>&nbsp;&nbsp;"name": "Terms and Conditions",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "I agree to the terms",<br>&nbsp;&nbsp;&nbsp;&nbsp;"default": false<br>&nbsp;&nbsp;}<br>}</pre></details> |
 | **radio** | Radio button group | <code>min: 1</code>, <code>max: 1</code> | <code>values</code> (required), <code>default</code>, <code>description</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "radio",<br>&nbsp;&nbsp;"name": "Payment Method",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"values": ["Credit Card", "PayPal", "Bank Transfer"],<br>&nbsp;&nbsp;&nbsp;&nbsp;"default": "Credit Card"<br>&nbsp;&nbsp;}<br>}</pre></details> |
 | **option** | Multi/single select | <code>min</code>, <code>max</code> | <code>values</code> (required), <code>description</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "option",<br>&nbsp;&nbsp;"name": "Countries",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"values": ["United States", "United Kingdom", "Canada"],<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Select one or more countries"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "min", "value": "1"},<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "max", "value": "3"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
+| **paybytime** | Unix timestamp for payment deadline | <code>min</code>, <code>max</code> | <code>description</code>, <code>value</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "paybytime",<br>&nbsp;&nbsp;"name": "Payment Deadline",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Unix Time Code by which the payment must be made",<br>&nbsp;&nbsp;&nbsp;&nbsp;"value": "1721480200"<br>&nbsp;&nbsp;}<br>}</pre></details> |
 
 
 ## Validation Types
 
 | Validation | Description                                                                                                 | Applicable Types                                                                                    | Default Value      |
 | ---------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------ |
-| `min`      | Minimum length (text/password/tel/search), minimum value (number/range), minimum date/time, or minimum amount of options to select (option/checkbox/radio). Inclusive. | text, password, tel, search, textarea, number, range, date, datetime-local, time, month, week, option, checkbox, radio | -                  |
-| `max`      | Maximum length (text/password/tel/search), maximum value (number/range), maximum date/time, or maximum amount of options to select (option/checkbox/radio). Inclusive. | text, password, tel, search, textarea, number, range, date, datetime-local, time, month, week, option, checkbox, radio | -                  |
+| `min`      | Minimum length (text/password/tel/search), minimum value (number/range), minimum date/time, minimum hours in advance (paybytime), or minimum amount of options to select (option/checkbox/radio). Inclusive. | text, password, tel, search, textarea, number, range, date, datetime-local, time, month, week, paybytime, option, checkbox, radio | -                  |
+| `max`      | Maximum length (text/password/tel/search), maximum value (number/range), maximum date/time, maximum hours in advance (paybytime), or maximum amount of options to select (option/checkbox/radio). Inclusive. | text, password, tel, search, textarea, number, range, date, datetime-local, time, month, week, paybytime, option, checkbox, radio | -                  |
 | `format`   | Specific format (email, url, etc.)                                                                          | text, email, url, tel, search, (url, email, nonempty, tel-pattern), <br>number (integer)         | -                  |
 | `optional` | The field is not required. By default all fields are required                                               | all                                                                                                 | false (if not set) |
 
