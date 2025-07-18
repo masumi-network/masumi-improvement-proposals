@@ -2,13 +2,12 @@
 
 ## Overview
 
-This document describes the validation standard format used for input types. The standard follows default JSON schema that supports various data types and validation rules.
+This document describes the standard format used for input types. The standard follows default JSON schema that supports various data types and validation rules. Data types should be compatible with the [HTML input types](https://www.w3schools.com/tags/tag_input.asp).
 
-We try to keep it as simple as possible, but still offer a wide range of options.
 
 By default all fields are required, you can make the optional however see the [Validation Types](#validation-types)
 
-(As a developer you do not have to care about the right display types, just define the schema, we handle the rest.)
+As a developer you don't have to care about the right display types, just define the schema, we handle the rest.
 
 # Format and fields
 
