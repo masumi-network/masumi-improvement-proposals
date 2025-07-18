@@ -19,7 +19,7 @@ For more info on types see [Supported Types](#supported-types) and [Validation T
 | <code>id</code> | Yes | Used to identify the input. Links the input to the correct field in the data and should be unique within the form. |
 | <code>type</code> | Yes | Defines the type of the input. Determines the correct rendering and validation for the input. See [Supported Types](#supported-types) for more details. |
 | <code>name</code> | Yes | Used to display the name of the input to the user. |
-| <code>data</code> | No | Provides additional data specific to the input type. Used to render the input accordingly. See [Data Field](#data-field) for more details. |
+| <code>data</code> | No | Provides additional data specific to the input type. Used to render the input accordingly. See [Data Field Configuration](#data-field-configuration) for more details. |
 | <code>validations</code> | No | Provides validation rules specific to the input type. Used to validate the input accordingly. See [Validation Types](#validation-types) for more details. |
 
 ## Input Validation Schema Example
