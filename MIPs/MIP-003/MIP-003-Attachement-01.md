@@ -11,7 +11,9 @@ By default all fields are required, but you can make it optional. See [Validatio
 
 # Format and fields
 
-Below is an example with all possible options to define an input. (possible types are separated by '|' see [Supported Types](#supported-types) and [Validation Types](#validation-types) for more details)
+Below is an example of an input definition, with all possible types separated by  "|". 
+
+For more info on types see [Supported Types](#supported-types) and [Validation Types](#validation-types).
 
 ```json
 {
@@ -42,25 +44,15 @@ Below is an example with all possible options to define an input. (possible type
 }
 ```
 
-## id
+## Field Descriptions
 
-The `id` field is used to identify the input. This is used to link the input to the correct field in the data, it should be unique within the form.
-
-## type
-
-The `type` field is used to define the type of the input. This is used to determine the correct rendering and validation for the input see [Supported Types](#supported-types) for more details.
-
-## name
-
-The `name` field is used to display the name of the input
-
-## data
-
-The `data` field is used to provide additional data. This is specific to the input type and will be used to render the input accordingly see [Data Field](#data-field) for more details.
-
-## validations
-
-The `validations` field is used to provide validation rules. This is specific to the input type and will be used to validate the input accordingly see [Validation Types](#validation-types) for more details.
+| Field | Required | Description |
+|-------|----------|-------------|
+| <code>id</code> | Yes | Used to identify the input. Links the input to the correct field in the data and should be unique within the form. |
+| <code>type</code> | Yes | Defines the type of the input. Determines the correct rendering and validation for the input. See [Supported Types](#supported-types) for more details. |
+| <code>name</code> | Yes | Used to display the name of the input to the user. |
+| <code>data</code> | No | Provides additional data specific to the input type. Used to render the input accordingly. See [Data Field](#data-field) for more details. |
+| <code>validations</code> | No | Provides validation rules specific to the input type. Used to validate the input accordingly. See [Validation Types](#validation-types) for more details. |
 
 # Supported Types
 
