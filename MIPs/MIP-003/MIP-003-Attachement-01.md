@@ -18,7 +18,7 @@ Below is an example with all possible options to define an input. (possible type
 {
   "id": "example-input",
 
-  "type": "string|textarea|number|boolean|optional|none",
+  "type": "text|textarea|number|boolean|option|none|email|password|tel|url|date|datetime-local|time|month|week|color|range|file|hidden|search|button|checkbox|radio|image|reset|submit",
 
   "name": "Example name",
 
@@ -80,31 +80,31 @@ This is a special type that is used to display additional text and information.
 
 The name will be displayed as a header and the description as a paragraph. Right now no additional rendering options are supported, but support might be added in the future read about the [Data Field](#data-field) for more details.
 
-## String
+## Text
 
 ```json
 {
-  "type": "string",
+  "type": "text",
 
-  "name": "Email",
+  "name": "Username",
 
   "validations": [
     {
       "validation": "min",
 
-      "value": "5"
+      "value": "3"
     },
 
     {
       "validation": "max",
 
-      "value": "55"
+      "value": "20"
     },
 
     {
       "validation": "format",
 
-      "value": "email"
+      "value": "nonempty"
     }
   ]
 }
@@ -179,6 +179,343 @@ The name will be displayed as a header and the description as a paragraph. Right
 }
 ```
 
+## Email
+
+```json
+{
+  "type": "email",
+
+  "name": "Contact Email",
+
+  "data": {
+    "placeholder": "user@example.com"
+  },
+
+  "validations": [
+    {
+      "validation": "format",
+      "value": "email"
+    }
+  ]
+}
+```
+
+## Password
+
+```json
+{
+  "type": "password",
+
+  "name": "Account Password",
+
+  "data": {
+    "description": "Must be at least 8 characters"
+  },
+
+  "validations": [
+    {
+      "validation": "min",
+      "value": "8"
+    },
+    {
+      "validation": "max",
+      "value": "128"
+    }
+  ]
+}
+```
+
+## Tel
+
+```json
+{
+  "type": "tel",
+
+  "name": "Phone Number",
+
+  "data": {
+    "placeholder": "+1-234-567-8900",
+    "description": "Include country code"
+  }
+}
+```
+
+## URL
+
+```json
+{
+  "type": "url",
+
+  "name": "Website URL",
+
+  "data": {
+    "placeholder": "https://example.com"
+  },
+
+  "validations": [
+    {
+      "validation": "format",
+      "value": "url"
+    }
+  ]
+}
+```
+
+## Date
+
+```json
+{
+  "type": "date",
+
+  "name": "Birth Date",
+
+  "validations": [
+    {
+      "validation": "min",
+      "value": "1900-01-01"
+    },
+    {
+      "validation": "max",
+      "value": "2024-12-31"
+    }
+  ]
+}
+```
+
+## Datetime-local
+
+```json
+{
+  "type": "datetime-local",
+
+  "name": "Appointment Time",
+
+  "data": {
+    "description": "Select date and time for your appointment"
+  }
+}
+```
+
+## Time
+
+```json
+{
+  "type": "time",
+
+  "name": "Preferred Time",
+
+  "validations": [
+    {
+      "validation": "min",
+      "value": "09:00"
+    },
+    {
+      "validation": "max",
+      "value": "17:00"
+    }
+  ]
+}
+```
+
+## Month
+
+```json
+{
+  "type": "month",
+
+  "name": "Billing Month",
+
+  "data": {
+    "description": "Select month and year"
+  }
+}
+```
+
+## Week
+
+```json
+{
+  "type": "week",
+
+  "name": "Week Selection",
+
+  "validations": [
+    {
+      "validation": "min",
+      "value": "2024-W01"
+    }
+  ]
+}
+```
+
+## Color
+
+```json
+{
+  "type": "color",
+
+  "name": "Theme Color",
+
+  "data": {
+    "description": "Choose your preferred color",
+    "default": "#1a73e8"
+  }
+}
+```
+
+## Range
+
+```json
+{
+  "type": "range",
+
+  "name": "Priority Level",
+
+  "data": {
+    "min": "1",
+    "max": "10",
+    "step": "1",
+    "default": "5",
+    "description": "Select priority from 1 (low) to 10 (high)"
+  }
+}
+```
+
+## File
+
+```json
+{
+  "type": "file",
+
+  "name": "Document Upload",
+
+  "data": {
+    "accept": ".pdf,.doc,.docx",
+    "description": "Upload PDF or Word documents only",
+    "maxSize": "10485760"
+  }
+}
+```
+
+## Hidden
+
+```json
+{
+  "type": "hidden",
+
+  "name": "Session ID",
+
+  "data": {
+    "value": "abc123xyz"
+  }
+}
+```
+
+## Search
+
+```json
+{
+  "type": "search",
+
+  "name": "Search Query",
+
+  "data": {
+    "placeholder": "Search for services...",
+    "description": "Enter keywords to search"
+  }
+}
+```
+
+## Button
+
+```json
+{
+  "type": "button",
+
+  "name": "Calculate Total",
+
+  "data": {
+    "value": "Calculate",
+    "action": "calculate_total"
+  }
+}
+```
+
+## Checkbox
+
+```json
+{
+  "type": "checkbox",
+
+  "name": "Terms and Conditions",
+
+  "data": {
+    "description": "I agree to the terms and conditions",
+    "default": false
+  }
+}
+```
+
+## Radio
+
+```json
+{
+  "type": "radio",
+
+  "name": "Payment Method",
+
+  "data": {
+    "values": ["Credit Card", "PayPal", "Bank Transfer"],
+    "default": "Credit Card"
+  }
+}
+```
+
+## Image
+
+```json
+{
+  "type": "image",
+
+  "name": "Submit Button",
+
+  "data": {
+    "src": "/images/submit-button.png",
+    "alt": "Submit Form",
+    "width": "200",
+    "height": "50"
+  }
+}
+```
+
+## Reset
+
+```json
+{
+  "type": "reset",
+
+  "name": "Reset Form",
+
+  "data": {
+    "value": "Clear All"
+  }
+}
+```
+
+## Submit
+
+```json
+{
+  "type": "submit",
+
+  "name": "Submit Form",
+
+  "data": {
+    "value": "Submit Application"
+  }
+}
+```
+
 ## Option
 
 This can be used to let the user select multiple or a single value. Ensure to provide a list of values to select in the `data` field. Also see [Data Field](#data-field) for more details.
@@ -235,12 +572,12 @@ This example requires exactly 1 value to be selected.
 
 # Validation Types
 
-| Validation | Description                                                                                                 | Applicable Types                                      | Default Value      |
-| ---------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- | ------------------ |
-| `min`      | Minimum length (string), minimum value (number) or minimum amount of options to select (option). Inclusive. | string, number                                        | -                  |
-| `max`      | Maximum length (string), maximum value (number) or maximum amount of options to select (option). Inclusive. | string, number                                        | -                  |
-| `format`   | Specific format (email, url, etc.)                                                                          | string, (url, email, nonempty), <br>number (integer), | -                  |
-| `optional` | The field is not required. By default all fields are required                                               | all                                                   | false (if not set) |
+| Validation | Description                                                                                                 | Applicable Types                                                                                    | Default Value      |
+| ---------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------ |
+| `min`      | Minimum length (text/password/tel/search), minimum value (number/range), minimum date/time, or minimum amount of options to select (option/checkbox/radio). Inclusive. | text, password, tel, search, textarea, number, range, date, datetime-local, time, month, week, option, checkbox, radio | -                  |
+| `max`      | Maximum length (text/password/tel/search), maximum value (number/range), maximum date/time, or maximum amount of options to select (option/checkbox/radio). Inclusive. | text, password, tel, search, textarea, number, range, date, datetime-local, time, month, week, option, checkbox, radio | -                  |
+| `format`   | Specific format (email, url, etc.)                                                                          | text, email, url, tel, search, (url, email, nonempty, tel-pattern), <br>number (integer)         | -                  |
+| `optional` | The field is not required. By default all fields are required                                               | all                                                                                                 | false (if not set) |
 
 Please note that the by default there are no optional validations, also meaning that all fields are required.
 This means that if you do not set a validation, the field will not be limited. In contrast to this, if you set validations multiple times, all instances of the validation will be applied, meaning that validations follow a logical AND. To clarify this, here are some examples:
@@ -262,11 +599,12 @@ The value will first be validated to be at least 5, then validated to be at leas
 
 # Format Types
 
-The following format types are supported and work across `string` types:
+The following format types are supported and work across `text` and related text input types:
 
-- `email` - Validates that the input is a valid email address.
-- `url` - Validates that the input is a valid URL.
+- `email` - Validates that the input is a valid email address (automatically applied to `email` type).
+- `url` - Validates that the input is a valid URL (automatically applied to `url` type).
 - `nonempty` - Validates that the input is not empty.
+- `tel-pattern` - Validates that the input matches a telephone number pattern (can be used with `tel` type).
 
 The following format types are supported and work across `number` types:
 
@@ -287,9 +625,12 @@ data: {
 }
 ```
 
-## All
+## All Types
 
-The `description` field is used to provide a description for the input. This is specific to the input type and will be used to render the input accordingly.
+The following fields can be used with most input types:
+
+### description
+Provides additional context or instructions for the input.
 
 ```json
 data: {
@@ -297,11 +638,106 @@ data: {
 }
 ```
 
-The `placeholder` field is used to provide a placeholder text for the input. This is specific to the input type and will be used to render the input accordingly.
+### placeholder
+Provides placeholder text for text-based inputs (text, textarea, email, password, tel, url, search).
 
 ```json
 data: {
   "placeholder": "Please enter your email"
+}
+```
+
+### default
+Sets a default value for the input.
+
+```json
+data: {
+  "default": "default value"
+}
+```
+
+## Type-Specific Data Fields
+
+### Range
+The `range` type supports additional configuration:
+
+```json
+data: {
+  "min": "0",
+  "max": "100",
+  "step": "5",
+  "default": "50"
+}
+```
+
+### File
+The `file` type supports file restrictions:
+
+```json
+data: {
+  "accept": ".pdf,.doc,.docx",
+  "maxSize": "10485760",  // in bytes
+  "multiple": true
+}
+```
+
+### Hidden
+The `hidden` type requires a value:
+
+```json
+data: {
+  "value": "hidden-value"
+}
+```
+
+### Color
+The `color` type can have a default color:
+
+```json
+data: {
+  "default": "#ff0000"
+}
+```
+
+### Button, Submit, Reset
+These button types support custom text:
+
+```json
+data: {
+  "value": "Click Me",
+  "action": "custom_action"  // for button type
+}
+```
+
+### Checkbox
+The `checkbox` type supports default checked state:
+
+```json
+data: {
+  "default": true,
+  "description": "Check to agree"
+}
+```
+
+### Radio
+The `radio` type requires values like option:
+
+```json
+data: {
+  "values": ["Option 1", "Option 2"],
+  "default": "Option 1"
+}
+```
+
+### Image
+The `image` type requires image configuration:
+
+```json
+data: {
+  "src": "/path/to/image.png",
+  "alt": "Alternative text",
+  "width": "100",
+  "height": "50"
 }
 ```
 
