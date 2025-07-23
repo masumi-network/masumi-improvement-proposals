@@ -2,23 +2,34 @@
 
 ## Overview
 
-This document describes the validation standard format used for input types. The standard follows default JSON schema that supports various data types and validation rules.
+This document describes the standard format used for input types. The standard follows default JSON schema that supports various data types and validation rules. 
 
-We try to keep it as simple as possible, but still offer a wide range of options.
+Data types should be compatible with the [HTML input types](https://www.w3schools.com/tags/tag_input.asp) (except button types).
 
-By default all fields are required, you can make the optional however see the [Validation Types](#validation-types)
 
-(As a developer you do not have to care about the right display types, just define the schema, we handle the rest.)
+By default all fields are required, but you can make it optional. See [Validation Types](#validation-types).
 
-# Format and fields
+For more info on types see [Supported Types](#supported-types) and [Validation Types](#validation-types).
 
-Below is an example with all possible options to define an input. (possible types are separated by '|' see [Supported Types](#supported-types) and [Validation Types](#validation-types) for more details)
+
+## Field Descriptions
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| <code>id</code> | Yes | Used to identify the input. Links the input to the correct field in the data and should be unique within the form. |
+| <code>type</code> | Yes | Defines the type of the input. Determines the correct rendering and validation for the input. See [Supported Types](#supported-types) for more details. |
+| <code>name</code> | Yes | Used to display the name of the input to the user. |
+| <code>data</code> | No | Provides additional data specific to the input type. Used to render the input accordingly. See [Data Field](#data-field) for more details. |
+| <code>validations</code> | No | Provides validation rules specific to the input type. Used to validate the input accordingly. See [Validation Types](#validation-types) for more details. |
+
+## Input Validation Schema Example
+Below is an example of an input definition, with all possible types separated by  "|". 
 
 ```json
 {
   "id": "example-input",
 
-  "type": "string|textarea|number|boolean|optional|none",
+  "type": "text|textarea|number|boolean|option|none|email|password|tel|url|date|datetime-local|time|month|week|color|range|file|hidden|search|checkbox|radio",
 
   "name": "Example name",
 
@@ -43,207 +54,52 @@ Below is an example with all possible options to define an input. (possible type
 }
 ```
 
-## id
-
-The `id` field is used to identify the input. This is used to link the input to the correct field in the data, it should be unique within the form.
-
-## type
-
-The `type` field is used to define the type of the input. This is used to determine the correct rendering and validation for the input see [Supported Types](#supported-types) for more details.
-
-## name
-
-The `name` field is used to display the name of the input
-
-## data
-
-The `data` field is used to provide additional data. This is specific to the input type and will be used to render the input accordingly see [Data Field](#data-field) for more details.
-
-## validations
-
-The `validations` field is used to provide validation rules. This is specific to the input type and will be used to validate the input accordingly see [Validation Types](#validation-types) for more details.
-
 # Supported Types
 
-## None
+## Supported Input Types
 
-This is a special type that is used to display additional text and information.
-(Note all validations will be ignored)
-
-```json
-{
-  "type": "none",
-
-  "name": "None"
-}
-```
-
-The name will be displayed as a header and the description as a paragraph. Right now no additional rendering options are supported, but support might be added in the future read about the [Data Field](#data-field) for more details.
-
-## String
-
-```json
-{
-  "type": "string",
-
-  "name": "Email",
-
-  "validations": [
-    {
-      "validation": "min",
-
-      "value": "5"
-    },
-
-    {
-      "validation": "max",
-
-      "value": "55"
-    },
-
-    {
-      "validation": "format",
-
-      "value": "email"
-    }
-  ]
-}
-```
-
-## Textarea
-
-```json
-{
-  "type": "textarea",
-
-  "name": "Sentences",
-
-  "validations": [
-    {
-      "validation": "min",
-
-      "value": "5"
-    },
-
-    {
-      "validation": "max",
-
-      "value": "55"
-    }
-  ]
-}
-```
+| Type | Description | Common Validations | Data Fields | Example |
+|------|-------------|-------------------|-------------|---------|
+| **none** | Display-only text/information | None (ignored) | <code>description</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "none",<br>&nbsp;&nbsp;"name": "Instructions",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Please fill out all required fields"<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **text** | Single-line text input | <code>min</code>, <code>max</code>, <code>format: nonempty</code> | <code>placeholder</code>, <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "text",<br>&nbsp;&nbsp;"name": "Username",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"placeholder": "Enter username",<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "3-20 characters"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "min", "value": "3"},<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "max", "value": "20"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
+| **textarea** | Multi-line text input | <code>min</code>, <code>max</code>, <code>format: nonempty</code> | <code>placeholder</code>, <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "textarea",<br>&nbsp;&nbsp;"name": "Comments",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"placeholder": "Enter your comments...",<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Maximum 500 characters"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "max", "value": "500"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
+| **number** | Numeric input | <code>min</code>, <code>max</code>, <code>format: integer</code> | <code>placeholder</code>, <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "number",<br>&nbsp;&nbsp;"name": "Age",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Must be 18 or older"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "min", "value": "18"},<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "max", "value": "120"},<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "format", "value": "integer"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
+| **boolean** | True/false checkbox | <code>optional</code> | <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "boolean",<br>&nbsp;&nbsp;"name": "Subscribe to Newsletter",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"default": false<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **email** | Email address input | <code>format: email</code> (auto), <code>min</code>, <code>max</code> | <code>placeholder</code>, <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "email",<br>&nbsp;&nbsp;"name": "Contact Email",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"placeholder": "user@example.com"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "format", "value": "email"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
+| **password** | Password input (hidden) | <code>min</code>, <code>max</code> | <code>placeholder</code>, <code>description</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "password",<br>&nbsp;&nbsp;"name": "Password",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Minimum 8 characters"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "min", "value": "8"},<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "max", "value": "128"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
+| **tel** | Telephone number | <code>format: tel-pattern</code>, <code>min</code>, <code>max</code> | <code>placeholder</code>, <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "tel",<br>&nbsp;&nbsp;"name": "Phone Number",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"placeholder": "+1-234-567-8900",<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Include country code"<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **url** | URL/website input | <code>format: url</code> (auto), <code>min</code>, <code>max</code> | <code>placeholder</code>, <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "url",<br>&nbsp;&nbsp;"name": "Website",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"placeholder": "https://example.com"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "format", "value": "url"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
+| **date** | Date picker | <code>min</code>, <code>max</code> | <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "date",<br>&nbsp;&nbsp;"name": "Birth Date",<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "min", "value": "1900-01-01"},<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "max", "value": "2024-12-31"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
+| **datetime-local** | Date and time picker | <code>min</code>, <code>max</code> | <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "datetime-local",<br>&nbsp;&nbsp;"name": "Appointment Time",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Select date and time"<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **time** | Time picker | <code>min</code>, <code>max</code> | <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "time",<br>&nbsp;&nbsp;"name": "Start Time",<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "min", "value": "09:00"},<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "max", "value": "17:00"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
+| **month** | Month/year picker | <code>min</code>, <code>max</code> | <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "month",<br>&nbsp;&nbsp;"name": "Billing Month",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Select month and year"<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **week** | Week picker | <code>min</code>, <code>max</code> | <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "week",<br>&nbsp;&nbsp;"name": "Week Selection",<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "min", "value": "2024-W01"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
+| **color** | Color picker | None | <code>default</code>, <code>description</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "color",<br>&nbsp;&nbsp;"name": "Theme Color",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"default": "#1a73e8",<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Choose your preferred color"<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **range** | Slider control | <code>min</code>, <code>max</code> | <code>min</code>, <code>max</code>, <code>step</code>, <code>default</code>, <code>description</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "range",<br>&nbsp;&nbsp;"name": "Priority Level",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"min": "1",<br>&nbsp;&nbsp;&nbsp;&nbsp;"max": "10",<br>&nbsp;&nbsp;&nbsp;&nbsp;"step": "1",<br>&nbsp;&nbsp;&nbsp;&nbsp;"default": "5",<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "1 (low) to 10 (high)"<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **file** | File upload | None | <code>accept</code>, <code>maxSize</code>, <code>multiple</code>, <code>description</code>, <code>outputFormat</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "file",<br>&nbsp;&nbsp;"name": "Document Upload",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"accept": ".pdf,.doc,.docx",<br>&nbsp;&nbsp;&nbsp;&nbsp;"maxSize": "10485760",<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "PDF or Word documents only (max 10MB)",<br>&nbsp;&nbsp;&nbsp;&nbsp;"outputFormat": "base64"<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **hidden** | Hidden field | None | <code>value</code> (required) | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "hidden",<br>&nbsp;&nbsp;"name": "Session ID",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"value": "abc123xyz"<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **search** | Search input | <code>min</code>, <code>max</code>, <code>format: nonempty</code> | <code>placeholder</code>, <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "search",<br>&nbsp;&nbsp;"name": "Search Query",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"placeholder": "Search for services...",<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Enter keywords"<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **checkbox** | Single checkbox | <code>optional</code> | <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "checkbox",<br>&nbsp;&nbsp;"name": "Terms and Conditions",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "I agree to the terms",<br>&nbsp;&nbsp;&nbsp;&nbsp;"default": false<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **radio** | Radio button group | <code>min: 1</code>, <code>max: 1</code> | <code>values</code> (required), <code>default</code>, <code>description</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "radio",<br>&nbsp;&nbsp;"name": "Payment Method",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"values": ["Credit Card", "PayPal", "Bank Transfer"],<br>&nbsp;&nbsp;&nbsp;&nbsp;"default": "Credit Card"<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **option** | Multi/single select | <code>min</code>, <code>max</code> | <code>values</code> (required), <code>description</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "option",<br>&nbsp;&nbsp;"name": "Countries",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"values": ["United States", "United Kingdom", "Canada"],<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Select one or more countries"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "min", "value": "1"},<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "max", "value": "3"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
 
 
-## Number
+## Validation Types
 
-```json
-{
-  "type": "number",
+| Validation | Description                                                                                                 | Applicable Types                                                                                    | Default Value      |
+| ---------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------ |
+| `min`      | Minimum length (text/password/tel/search), minimum value (number/range), minimum date/time, or minimum amount of options to select (option/checkbox/radio). Inclusive. | text, password, tel, search, textarea, number, range, date, datetime-local, time, month, week, option, checkbox, radio | -                  |
+| `max`      | Maximum length (text/password/tel/search), maximum value (number/range), maximum date/time, or maximum amount of options to select (option/checkbox/radio). Inclusive. | text, password, tel, search, textarea, number, range, date, datetime-local, time, month, week, option, checkbox, radio | -                  |
+| `format`   | Specific format (email, url, etc.)                                                                          | text, email, url, tel, search, (url, email, nonempty, tel-pattern), <br>number (integer)         | -                  |
+| `optional` | The field is not required. By default all fields are required                                               | all                                                                                                 | false (if not set) |
 
-  "name": "Age",
+By default there are no optional validations, all fields are required.
 
-  "data": {
-    "description": "User's age in years (optional)"
-  },
+If you do not set a validation, the field will not be limited. 
 
-  "validations": [
-    {
-      "validation": "min",
+If you set validations multiple times, all instances of the validation will be applied, validations follow a logical AND.
 
-      "value": "18"
-    },
-
-    {
-      "validation": "max",
-
-      "value": "120"
-    },
-
-    {
-      "validation": "format",
-
-      "value": "integer"
-    }
-  ]
-}
-```
-
-## Boolean
-
-```json
-{
-  "type": "boolean",
-
-  "name": "Include NGOs"
-}
-```
-
-## Option
-
-This can be used to let the user select multiple or a single value. Ensure to provide a list of values to select in the `data` field. Also see [Data Field](#data-field) for more details.
-
-### Multiple Values
-
-This example allows the user to select multiple values.
-
-```json
-{
-  "type": "option",
-
-  "name": "Company type",
-
-  "data": {
-    "description": "Please select the legal entities to analyze",
-
-    "values": ["AG", "GmbH", "UG"]
-  }
-}
-```
-
-### Single Value
-
-This example requires exactly 1 value to be selected.
-
-```json
-{
-  "type": "option",
-
-  "name": "Company type",
-
-  "data": {
-    "description": "Please select the legal entity to analyze",
-
-    "values": ["AG", "GmbH", "UG"]
-  },
-
-  "validations": [
-    {
-      "validation": "min",
-
-      "value": "1"
-    },
-
-    {
-      "validation": "max",
-
-      "value": "1"
-    }
-  ]
-}
-```
-
-# Validation Types
-
-| Validation | Description                                                                                                 | Applicable Types                                      | Default Value      |
-| ---------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- | ------------------ |
-| `min`      | Minimum length (string), minimum value (number) or minimum amount of options to select (option). Inclusive. | string, number                                        | -                  |
-| `max`      | Maximum length (string), maximum value (number) or maximum amount of options to select (option). Inclusive. | string, number                                        | -                  |
-| `format`   | Specific format (email, url, etc.)                                                                          | string, (url, email, nonempty), <br>number (integer), | -                  |
-| `optional` | The field is not required. By default all fields are required                                               | all                                                   | false (if not set) |
-
-Please note that the by default there are no optional validations, also meaning that all fields are required.
-This means that if you do not set a validation, the field will not be limited. In contrast to this, if you set validations multiple times, all instances of the validation will be applied, meaning that validations follow a logical AND. To clarify this, here are some examples:
+For example:
 
 ```json
 {
@@ -258,50 +114,71 @@ This means that if you do not set a validation, the field will not be limited. I
 
 The value will first be validated to be at least 5, then validated to be at least 10.
 
-(Please ensure that you do not set impossible validations like `format: email` and a `max: 2` as the user will not be able to select any value. Also ensure that the value you receive in your agent is validated to your needs and handled as untrusted data. This schema is a suggestions to a frontend on how to display inputs)
+(Please ensure that you do not set impossible validations like `format: email` and a `max: 2` as the user will not be able to select any value. Ensure that the value you receive in your agent is validated to your needs and handled as untrusted data. This schema is a suggestion to frontend on how to display inputs)
 
-# Format Types
+# Additional Notes
 
-The following format types are supported and work across `string` types:
+## Format Validation
 
-- `email` - Validates that the input is a valid email address.
-- `url` - Validates that the input is a valid URL.
-- `nonempty` - Validates that the input is not empty.
+Input types automatically handle their own format validation:
+- `email` type validates email format
+- `url` type validates URL format  
+- `tel` type accepts telephone numbers
+- `number` type accepts numeric values
 
-The following format types are supported and work across `number` types:
+For additional validation, use the `format` validation with values like:
+- `nonempty` - Ensures field is not empty
+- `integer` - Ensures number is an integer
 
-- `integer` - Validates that the input is an integer.
+## Data Field Configuration
 
+All input types support common data fields like `description`, `placeholder`, and `default`. Type-specific configurations are shown in the examples above and include:
 
-# Data Field
+- **option/radio**: Require `values` array
+- **range**: Supports `min`, `max`, `step` 
+- **file**: Supports `accept`, `maxSize`, `multiple`, `outputFormat`
+- **hidden**: Requires `value`
 
-The `data` field is used to provide additional data. This is specific to the input type and will be used to render the input accordingly.
+## File Handling Options
 
-## Option
+File inputs support two different output formats for how the file content is transmitted to the AI agent:
 
-The `option` type requires a list of values to be provided in the `data` field. This list will be used to render the input as a dropdown or list of checkboxes.
+### Base64 String Format
+When `outputFormat` is set to `"base64"`, the file content is encoded as a base64 string and included directly in the form data.
 
+**Example:**
 ```json
-data: {
-  "values": ["Option 1", "Option 2", "Option 3"]
+{
+  "type": "file",
+  "name": "Document Upload",
+  "data": {
+    "accept": ".pdf,.doc,.docx",
+    "maxSize": "10485760",
+    "outputFormat": "base64"
+  }
 }
 ```
 
-## All
+**Result:** The AI agent receives the file as a base64 string that can be decoded and processed directly.
 
-The `description` field is used to provide a description for the input. This is specific to the input type and will be used to render the input accordingly.
+### URL Reference Format
+When `outputFormat` is set to `"url"`, the file is uploaded to temporary cloud storage and the AI agent receives a URL reference to the file.
 
+**Example:**
 ```json
-data: {
-  "description": "This is an example input"
+{
+  "type": "file",
+  "name": "Document Upload",
+  "data": {
+    "accept": ".pdf,.doc,.docx",
+    "maxSize": "10485760",
+    "outputFormat": "url"
+  }
 }
 ```
 
-The `placeholder` field is used to provide a placeholder text for the input. This is specific to the input type and will be used to render the input accordingly.
+**Result:** The AI agent receives a temporary URL string that can be used to download or reference the file.
 
-```json
-data: {
-  "placeholder": "Please enter your email"
-}
-```
+### Default Behavior
+If `outputFormat` is not specified, the default behavior is `"base64"` for files under 1MB and `"url"` for larger files.
 
