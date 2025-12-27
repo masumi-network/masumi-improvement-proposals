@@ -76,7 +76,7 @@ Below is an example of an input definition, with all possible types separated by
 | **week** | Week picker | <code>min</code>, <code>max</code> | <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "week",<br>&nbsp;&nbsp;"name": "Week Selection",<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "min", "value": "2024-W01"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
 | **color** | Color picker | None | <code>default</code>, <code>description</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "color",<br>&nbsp;&nbsp;"name": "Theme Color",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"default": "#1a73e8",<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Choose your preferred color"<br>&nbsp;&nbsp;}<br>}</pre></details> |
 | **range** | Slider control | <code>min</code>, <code>max</code> | <code>min</code>, <code>max</code>, <code>step</code>, <code>default</code>, <code>description</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "range",<br>&nbsp;&nbsp;"name": "Priority Level",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"min": "1",<br>&nbsp;&nbsp;&nbsp;&nbsp;"max": "10",<br>&nbsp;&nbsp;&nbsp;&nbsp;"step": "1",<br>&nbsp;&nbsp;&nbsp;&nbsp;"default": "5",<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "1 (low) to 10 (high)"<br>&nbsp;&nbsp;}<br>}</pre></details> |
-| **file** | File upload | None | <code>accept</code>, <code>maxSize</code>, <code>multiple</code>, <code>description</code>, <code>outputFormat</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "file",<br>&nbsp;&nbsp;"name": "Document Upload",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"accept": ".pdf,.doc,.docx",<br>&nbsp;&nbsp;&nbsp;&nbsp;"maxSize": "10485760",<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "PDF or Word documents only (max 10MB)",<br>&nbsp;&nbsp;&nbsp;&nbsp;"outputFormat": "base64"<br>&nbsp;&nbsp;}<br>}</pre></details> |
+| **file** | File upload | <code>accept</code>, <code>maxSize</code>, <code>min</code>, <code>max</code> | <code>description</code>, <code>outputFormat</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"id": "file-upload",<br>&nbsp;&nbsp;"type": "file",<br>&nbsp;&nbsp;"name": "Document Upload",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "PDF or Word documents only (max 4.5MB)",<br>&nbsp;&nbsp;&nbsp;&nbsp;"outputFormat": "string"<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;"validations": [<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "accept", "value": "image/*,.pdf,.doc,.docx"},<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "maxSize", "value": "4718592"},<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "min", "value": "1"},<br>&nbsp;&nbsp;&nbsp;&nbsp;{"validation": "max", "value": "1"}<br>&nbsp;&nbsp;]<br>}</pre></details> |
 | **hidden** | Hidden field | None | <code>value</code> (required) | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "hidden",<br>&nbsp;&nbsp;"name": "Session ID",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"value": "abc123xyz"<br>&nbsp;&nbsp;}<br>}</pre></details> |
 | **search** | Search input | <code>min</code>, <code>max</code>, <code>format: nonempty</code> | <code>placeholder</code>, <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "search",<br>&nbsp;&nbsp;"name": "Search Query",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"placeholder": "Search for services...",<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "Enter keywords"<br>&nbsp;&nbsp;}<br>}</pre></details> |
 | **checkbox** | Single checkbox | <code>optional</code> | <code>description</code>, <code>default</code> | <details><summary>View Example</summary><pre>{<br>&nbsp;&nbsp;"type": "checkbox",<br>&nbsp;&nbsp;"name": "Terms and Conditions",<br>&nbsp;&nbsp;"data": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"description": "I agree to the terms",<br>&nbsp;&nbsp;&nbsp;&nbsp;"default": false<br>&nbsp;&nbsp;}<br>}</pre></details> |
@@ -141,44 +141,52 @@ All input types support common data fields like `description`, `placeholder`, an
 
 ## File Handling Options
 
-File inputs support two different output formats for how the file content is transmitted to the AI agent:
+File inputs support two different modes single or multiple files upload:
 
-### Base64 String Format
-When `outputFormat` is set to `"base64"`, the file content is encoded as a base64 string and included directly in the form data.
+### Single File
+Using the `MAX = 1` on the validation will enforce the file uploader to only allow single file.
+
+**Example:**
+```json
+{ 
+  "id": "file-upload",
+  "type": "file",
+  "name": "Document Upload",
+  "data": {
+    "description": "PDF or Word documents only (max 4.5MB)",
+    "outputFormat": "string"
+  },
+  "validations": [
+    {"validation": "accept", "value": "image/*,.pdf,.doc,.docx"},
+    {"validation": "maxSize", "value": "4718592"},
+    {"validation": "min", "value": "1"},
+    {"validation": "max", "value": "1"}
+  ]
+}
+```
+
+**Result:** The AI agent receives the file as a URL string that can be decoded and processed directly.
+
+### Multiple Files
+Using the `MAX >= 1` on the validation will enforce the file uploader to allow multiple files.
 
 **Example:**
 ```json
 {
+  "id": "multi-upload",
   "type": "file",
-  "name": "Document Upload",
+  "name": "Multiple Upload",
   "data": {
-    "accept": ".pdf,.doc,.docx",
-    "maxSize": "10485760",
-    "outputFormat": "base64"
-  }
+    "description": "Images or PDF documents only (max 4.5MB)",
+    "outputFormat": "string"
+  },
+  "validations": [
+    {"validation": "accept", "value": "image/*, .pdf"},
+    {"validation": "maxSize", "value": "4718592"},
+    {"validation": "min", "value": "1"},
+    {"validation": "max", "value": "3"}
+  ]
 }
 ```
 
-**Result:** The AI agent receives the file as a base64 string that can be decoded and processed directly.
-
-### URL Reference Format
-When `outputFormat` is set to `"url"`, the file is uploaded to temporary cloud storage and the AI agent receives a URL reference to the file.
-
-**Example:**
-```json
-{
-  "type": "file",
-  "name": "Document Upload",
-  "data": {
-    "accept": ".pdf,.doc,.docx",
-    "maxSize": "10485760",
-    "outputFormat": "url"
-  }
-}
-```
-
-**Result:** The AI agent receives a temporary URL string that can be used to download or reference the file.
-
-### Default Behavior
-If `outputFormat` is not specified, the default behavior is `"base64"` for files under 1MB and `"url"` for larger files.
-
+**Result:** The AI agent receives the files as an array of URL string that can be decoded and processed directly.
