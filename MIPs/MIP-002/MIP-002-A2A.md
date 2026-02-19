@@ -1,10 +1,10 @@
-# MIP-00X: On-Chain Metadata Standard for A2A Agent Integration
+# MIP-002: On-Chain Metadata Standard for A2A Agent Integration
 
 ## Author
-Patrick Tobler
+Patrick Tobler, Albina Nikiforova, Sarthi Borkar 
 
 ## Title
-MIP-00X: On-Chain Metadata Standard for A2A Agent Integration
+MIP-002: On-Chain Metadata Standard for A2A Agent Integration
 
 ## Abstract
 
@@ -46,7 +46,7 @@ This creates a clean separation:
   https://raw.githubusercontent.com/a2aproject/A2A/main/docs/specification.md
 
 - **Official x402 A2A Extension URI**  
-  https://github.com/google-a2a/a2a-x402/v0.1
+  https://github.com/google-agentic-commerce/a2a-x402/blob/main/spec/v0.2
 
 ---
 
@@ -112,9 +112,9 @@ Off-Chain Agent Card Metadata Schema
     "pushNotifications": false,              // (Optional) Indicates whether the agent supports push notifications. (e.g. webhooks) for long-running tasks.
     "extensions": [                          // (Optional) The x402 Extension is required when wanting to accept payments for the agent. Other extensions can also be added.
       {
-        "uri": "https://github.com/google-a2a/a2a-x402/v0.1", // (Optional) Canonical URI of the x402 A2A extension.
+        "uri": "https://github.com/google-agentic-commerce/a2a-x402/blob/main/spec/v0.2", // (Optional) Canonical URI of the x402 A2A extension.
         "description": "Supports payments using the x402 protocol for on-chain settlement.", // (Optional) Human-readable description of the extension.
-        "required": false                    // (Optional) If true, clients MUST support x402 to interact with this agent. If false, x402 is OPTIONAL and the agent MAY offer free interactions.
+        "required": false                    // (Optional) If true, clients MUST support x402. Monetized agents SHOULD set this to true.
       }
     ]
   },
