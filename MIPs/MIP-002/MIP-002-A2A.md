@@ -10,11 +10,11 @@ MIP-002: On-Chain Metadata Standard for A2A Agent Integration
 
 This proposal defines a standardized **on-chain metadata schema** for agentic services that integrate with the **Agent2Agent (A2A) protocol** within the Masumi ecosystem.
 
-The schema anchors an agent’s **off-chain A2A Agent Card** on-chain, enabling decentralized discovery, interoperability, and verification, while keeping rich capability metadata off-chain.
+The schema anchors an agent's **off-chain A2A Agent Card** on-chain, enabling decentralized discovery, interoperability, and verification, while keeping rich capability metadata off-chain.
 
 ## Problem Statement
 
-Masumi should be interoperable with the A2A protocol. However the A2A protocol relies on **Agent Cards** for discovery and interoperability. However:
+Masumi should be interoperable with the A2A protocol. The A2A protocol relies on **Agent Cards** for discovery and interoperability. However:
 
 - Agent Cards are off-chain and mutable
 - There is no canonical on-chain anchor linking an Agent Card to a verified identity
@@ -58,7 +58,7 @@ The proposed on-chain metadata schema is as follows:
 {
   "name": ["string"],                        // (Required) Human-readable name of the agent
   "description": ["string"],                 // (Optional) Short description of what the agent does 
-  "api_url": ["string"],                     // (Required) Base URL of the agent’s A2A API endpoint
+  "api_url": ["string"],                     // (Required) Base URL of the agent's A2A API endpoint
 
   "agent_card_url": ["https://{server_domain}/.well-known/agent-card.json"], // (Required) Replace {server_domain} with the actual domain
   "a2a_protocol_versions": ["string"],       // (Required) e.g. 1.0
@@ -96,7 +96,7 @@ Off-Chain Agent Card Metadata Schema
   "version": "string",                       // (Required) Agent implementation version. SHOULD change when behavior, skills, or capabilities change.
   "supportedInterfaces": [                   // (Required) At least one
     {
-      "url": "string",                       // (Required, HTTPS) Base URL of the agent’s A2A endpoint. All A2A operations (SendMessage, GetTask, etc.) are sent here.
+      "url": "string",                       // (Required, HTTPS) Base URL of the agent's A2A endpoint. All A2A operations (SendMessage, GetTask, etc.) are sent here.
       "protocolBinding": "HTTP+JSON | JSONRPC | GRPC", // (Required) Transport and binding used by this interface. HTTP+JSON is RECOMMENDED as a baseline.
       "protocolVersion": "string" // (Required)  A2A protocol version supported by this interface. MUST match one of the values in `protocolVersions`.
     }
@@ -125,7 +125,7 @@ Off-Chain Agent Card Metadata Schema
       "id": "string",                        // (Required) Stable identifier for the skill. Used for routing, orchestration, and selection.
       "name": "string",                      // (Required) Human-readable name of the skill.
       "description": "string",               // (Required)  Description of what this skill does.
-      "tags": ["string"],                    // (Required) Tags describing the skill’s domain or purpose.
+      "tags": ["string"],                    // (Required) Tags describing the skill's domain or purpose.
       "examples": ["string"],                // (Optional) Example prompts or use cases for this skill.
       "inputModes": ["string"],              // (Required) MIME types accepted by this specific skill.
       "outputModes": ["string"]              // (Required) MIME types produced by this specific skill.
